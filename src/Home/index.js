@@ -11,25 +11,33 @@ import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 export default function Home() {
-  const [users, setUsers] = useState([]);
-    const [infoSelecionada, setInfoSelecionada] = useState('');
-  
-  const UserInfo = () => {
+  const [dados, setDados] = useState({});
+  const [infoSelecionada, setInfoSelecionada] = useState('');
 
-    useEffect(() => {
-      const fetchUsers = async () => {
-        try {
-          const response = await axios.get ('https://randomuser.me/api/');
-          setUsers(response.data);
-    
-        } catch (error) {
-          console.error('Erro ao buscar Usuário:', error);
-        } 
-      };
-  
-        fetchUsers();
-    }, []);
-  }
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get('https://randomuser.me/api/');
+        
+        // Desestruturação dos dados recebidos diretamente no axios.get
+        const { data } = response;
+
+        // Como sua resposta tem um array 'results', pegamos o primeiro item do array
+        const primeiroResultado = data.results[0];
+
+        // Extrai os campos de 'nome' e 'email' do primeiro resultado
+        const { picture, name, email, dob, location, phone, login } = primeiroResultado;
+
+        // Atualiza o estado com os dados de 'nome' e 'email'
+        setDados({picture: `${picture.large}`, nome: `${name.first} ${name.last}`, email, idade: `${dob.age}`, 
+        location: `${location.street.number} ${location.street.name}`, phone, password: `${login.password}` });
+      } catch (error) {
+        console.error('Erro ao buscar os dados:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const handleClick = (tipoInfo) => {
     setInfoSelecionada(tipoInfo);
@@ -46,21 +54,35 @@ export default function Home() {
         <h3 className='description'>
         Aplicação para gerar dados aleatórios de usuários. Como Lorem Ipsum, mas para informações pessoais.
         </h3>
-      </div>
+        </div>
         <div className='circulo'>
-          <img/>
+          <img className='img-perfil' src={dados.picture}/>
         </div>
-        <div>
           <div className='informações'>
-            <p className='is'>Meu endereço é</p>
-            <p className='dados'>2061 Paddock Way</p>
+            {infoSelecionada === 'name' && (
+              <p className='classe'>Meu nome é: <br/> <span className='dados'>{`${dados.nome}`}</span></p>
+            )}
+            {infoSelecionada === 'email' && (
+              <p className='classe'>Meu email é: <br/> <span className='dados'>{`${dados.email}`}</span></p>
+            )}
+            {infoSelecionada === 'age' && (
+              <p className='classe'>Eu tenho: <br/> <span className='dados'>{`${dados.idade}`} anos</span></p>
+            )}
+             {infoSelecionada === 'location' && (
+              <p className='classe'>Meu endereço: <br/> <span className='dados'>{`${dados.location}`}</span></p>
+            )}
+            {infoSelecionada === 'phone' && (
+              <p className='classe'>Meu telefone é: <br/> <span className='dados'>{`${dados.phone}`}</span></p>
+            )}
+            {infoSelecionada === 'password' && (
+              <p className='classe'>Minha senha é: <br/> <span className='dados'>{`${dados.password}`}</span></p>
+            )}
           </div>
-        </div>
         <ul className='icons'>
           <li><FontAwesomeIcon 
           icon={faCircleUser} 
           className="icone-customizado" 
-          onClick={() => handleClick('title.first.last')} />
+          onClick={() => handleClick('name')} />
           </li>
           <li><FontAwesomeIcon 
           icon={faEnvelope} 
@@ -70,7 +92,7 @@ export default function Home() {
           <li><FontAwesomeIcon 
           icon={faCalendarDays} 
           className="icone-customizado"
-          onClick={() => handleClick('date')} />
+          onClick={() => handleClick('age')} />
           </li>
           <li><FontAwesomeIcon 
           icon={faLocationDot} 
