@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/gerar-usuario/static/css/main.6189f97c.css",
+    "main.js": "/gerar-usuario/static/js/main.44ee8c98.js",
+    "static/media/fundo.png": "/gerar-usuario/static/media/fundo.1f15cc20ba229c7260f3.png",
+    "index.html": "/gerar-usuario/index.html",
+    "main.6189f97c.css.map": "/gerar-usuario/static/css/main.6189f97c.css.map",
+    "main.44ee8c98.js.map": "/gerar-usuario/static/js/main.44ee8c98.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6189f97c.css",
+    "static/js/main.44ee8c98.js"
+  ]
+}
