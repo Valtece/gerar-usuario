@@ -13,6 +13,7 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 export default function Home() {
   const [dados, setDados] = useState({});
   const [infoSelecionada, setInfoSelecionada] = useState('');
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,6 +35,7 @@ export default function Home() {
       } catch (error) {
         console.error('Erro ao buscar os dados:', error);
       }
+
     }
 
     fetchData();
@@ -55,7 +57,7 @@ export default function Home() {
         Aplicação para gerar dados aleatórios de usuários. Como Lorem Ipsum, mas para informações pessoais.
         </h3>
         </div>
-        <div className='circulo'>
+        <div className='circulo' >
           <img className='img-perfil' src={dados.picture}/>
         </div>
           <div className='informações'>
